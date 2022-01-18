@@ -1,39 +1,46 @@
 <template>
     <div class="toolbar">
         <div class="toolbar__selects">
-            <div class="toolbar__search rounded-0">
+            <div class="toolbar__search">
                 <v-text-field
                     class="rounded-0"
-                    label="Введите ЖК / корпус / № квартиры / № паркинга"
+                    placeholder="Введите ЖК / корпус / № квартиры / № паркинга"
                     outlined
                     hide-details
-                    prepend-inner-icon="mdi-magnify"
                     height=38px
                     dense
                 >
+                    <template v-slot:prepend-inner>
+                        <img width="14" height="14" src="@/assets/search.svg" class="mt-1 mr-4">
+                    </template>
                 </v-text-field>
             </div>
 
             <div class="toolbar__select rounded-0">
                 <v-select
                     :items="items"
+                    v-model="selected"
                     class="rounded-0"
-                    label="Все статусы"
-                    color="white"
+                    placeholder="Все статусы"
+                    item-color="white"
+                    append-icon="mdi-chevron-down"
+                    height=38px
                     outlined
                     hide-details
                     dense
                     multiple
+                    :menu-props="{offsetY: true, maxWidth: 180, bottom: true,}"
                 >
                     <template v-slot:item="item">
-                        <div>
+                        <div class="toolbar__select_active">
                             <v-checkbox
                                 color="#FCE66F"
-                                :label="`${item.item}`"
                                 hide-details
                                 dense
                             >
                             </v-checkbox>
+                            
+                            <span>{{ item.item }}</span>
                         </div>
                     </template>
                 </v-select>
@@ -47,7 +54,7 @@
                     tile
                 >
                     <span>Очистить корзину</span>
-                    <v-icon color="black" class="mt-1 ml-1">mdi-close</v-icon> 
+                    <v-icon color="black" class="ml-2">mdi-close</v-icon> 
                 </v-btn>
             </div>
         </div>
@@ -59,7 +66,6 @@
                     label="все"
                     hide-details
                     dense
-                    style="color: black"
                 >
                 </v-checkbox>
             </div>
@@ -72,6 +78,7 @@
                     tile
                 >
                     <span>Сохранить</span>
+                    <img src="@/assets/pdf.svg" class="ml-3">
                 </v-btn>
             </div>
 
@@ -83,6 +90,7 @@
                     tile
                 >
                     <span>Отправить</span>
+                    <img src="@/assets/airplane.svg" class="ml-3">
                 </v-btn>
             </div>
 
@@ -95,6 +103,7 @@
                     tile
                 >
                     <span>Удалить</span>
+                    <img src="@/assets/delete.svg" class="ml-3">
                 </v-btn>
             </div>
         </div>
@@ -104,7 +113,8 @@
 <script>
     export default {
         data: () => ({
-            items: ["Забронировано", "Продано", "Активно"]
+            items: ["Забронировано", "Продано", "Активно"],
+            selected: []
         }),
         components: {
             
@@ -116,7 +126,7 @@
     .toolbar {
         &__selects {
             display: flex;
-            justify-content: space-between;
+            // justify-content: space-between;
             flex-wrap: wrap
         }
 
@@ -125,7 +135,7 @@
             margin-top: 32px;
             display: flex;
             justify-content: space-between;
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
         }
 
@@ -134,6 +144,7 @@
             width: 100%;
             border-radius: 0px;
             height: 38px;
+            margin-right: 10px;
         }
 
         &__select {
@@ -146,6 +157,21 @@
             max-width: 180px;
             width: 100%;
             height: 38px;
+            margin-right: 10px;
+
+            &_active {
+                display: flex;
+                color: black;
+                font-size: 14px;
+                line-height: 18px;
+                color: #02101C;
+                align-items: center;
+
+                &:hover {
+                    display: flex;
+                    color: #FF0D29;
+                }
+            }
         }
 
         &__checkbox {
@@ -179,8 +205,8 @@
                 padding: 0;
                 font-style: normal;
                 font-weight: normal;
-                font-size: 13px;
-                line-height: 20px;
+                font-size: 13px !important;
+                line-height: 20px !important;
             }
         }
     }
@@ -189,5 +215,6 @@
         margin-top: 0 !important;
         padding-top: 0 !important;
     }
+ 
 
 </style>

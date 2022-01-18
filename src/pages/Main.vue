@@ -1,6 +1,10 @@
 <template>
     <div class="wrapper">
         <Toolbar/>
+
+        <div class="content">
+            
+        </div>
     </div>
 </template>
 
