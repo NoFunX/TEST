@@ -16,11 +16,11 @@
                 </v-text-field>
             </div>
 
-            <div class="toolbar__select rounded-0">
+            <div class="toolbar__select">
                 <v-select
                     :items="items"
                     v-model="selected"
-                    class="rounded-0"
+                    class="rounded-0 toolbar__select"
                     placeholder="Все статусы"
                     item-color="white"
                     append-icon="mdi-chevron-down"
@@ -216,5 +216,12 @@
         padding-top: 0 !important;
     }
  
+    .toolbar__select input::placeholder {
+        font-size: 14px !important;
+        line-height: 18px !important;
+        color: #000000 !important;
+        font-style: normal !important;;
+        font-weight: normal !important;;
+    }
 
 </style>
