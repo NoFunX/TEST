@@ -31,17 +31,25 @@
                     multiple
                     :menu-props="{offsetY: true, maxWidth: 180, bottom: true,}"
                 >
-                    <template v-slot:item="item">
-                        <div class="toolbar__select_active">
+                    <template v-slot:item="props">
+                        <div>
                             <v-checkbox
                                 color="#FCE66F"
                                 hide-details
                                 dense
+                                :label="props.item"
                             >
+                                <template v-slot:label>
+                                    <span class="toolbar__select_item">{{ props.item }}</span>
+                                </template>
                             </v-checkbox>
-                            
-                            <span>{{ item.item }}</span>
                         </div>
+                    </template>
+
+                   <template v-slot:selection="props"> 
+                        <span :style="`line-height: 0 !important; ${selected.length > 1 ? 'margin-top: 8px' : null}`">
+                            {{ props.item }}
+                        </span>
                     </template>
                 </v-select>
             </div>
@@ -158,8 +166,9 @@
             width: 100%;
             height: 38px;
             margin-right: 10px;
+            
 
-            &_active {
+            &_item {
                 display: flex;
                 color: black;
                 font-size: 14px;
@@ -171,6 +180,10 @@
                     display: flex;
                     color: #FF0D29;
                 }
+            }
+
+            &_selection {
+                display: inline;
             }
         }
 

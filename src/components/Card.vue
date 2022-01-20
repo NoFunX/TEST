@@ -2,26 +2,48 @@
     <div class="card">
         <v-card 
             height="100%" 
-            hover 
             tile
+            flat
         >
             <div class="content">
                 .
                 <span class="price">{{ card.price }}</span>
 
-                <div class="type">
-                    <img
-                        v-if="card.type === 'Квартира'" 
-                        src="@/assets/flat.svg" 
-                        class="mr-2"
-                    >
+                <div style="display: inline-block">
+                    <div v-if="card.type === 'Квартира'" class="type">
+                        <img
+                            src="@/assets/flat.svg" 
+                            class="mr-2"
+                        >
+                        <span> {{ card.type }} </span>
+                        
+                    </div>
 
-                    <img
-                        v-if="card.type === 'Паркинг'" 
-                        src="@/assets/car.svg" 
-                        class="mr-2"
+                    <div
+                        v-bind="attrs"
+                        v-on="on"
+                        v-if="card.type === 'Паркинг'"
+                        class="type"
                     >
-                    <span> {{ card.type }} </span>
+                        <img
+                            src="@/assets/car.svg" 
+                            class="mr-2"
+                        >
+                        <span 
+                            @mouseenter="tooltip = true"
+                            @mouseleave="tooltip = false"
+                        > 
+                            {{ card.type }} 
+                        </span>
+                    </div>
+                    <div
+                        v-if="tooltip" 
+                        class="tooltip"
+                    >
+                        <div class="tooltip__content">
+                            <img src="@/assets/Union.svg">
+                        </div>
+                    </div>
                 </div>
 
                 <div
@@ -97,10 +119,19 @@
 
                 <div class="address">
                     <img src="@/assets/geo.svg" class="mr-2">
-                    <span> {{ card.address }} </span>
+                    <div>
+                        <div> {{ card.address.split('\n')[0] }} </div>
+                        <div> {{ card.address.split('\n')[1] }} </div>
+                        <div> {{ card.address.split('\n')[2] }} </div>
+                    </div>
+                </div>
+
+                <div class="date">
+                    <span class="date__text">Добавлено 21/11/2020</span>
                 </div>
 
                 <img src="@/assets/plan.svg" class="plan">
+                
             </div>
         </v-card>
     </div>
@@ -113,7 +144,10 @@ export default {
             type: Object,
             default: () => {}
         }
-    }
+    },
+    data: () => ({
+        tooltip: false
+    })
 }
 </script>
 
@@ -121,6 +155,7 @@ export default {
     .card {
         width: 489px;
         position: relative;
+        border: 1px solid #E5E5E5;
 
         &:nth-child(3) {
             margin-top: 23px;
@@ -151,7 +186,12 @@ export default {
         font-size: 12px;
         line-height: 16px;
         color: #232735;
-        padding: 5px 16px
+        padding: 5px 16px;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer
+        }
     }
 
     .dealType {
@@ -159,7 +199,7 @@ export default {
         align-items: center;
         justify-content: center;
         background: #FFE4E4;
-        padding: 6px 9px;
+        padding: 6px 12px;
         position: absolute;
         right: 0;
         top: 21px;
@@ -304,12 +344,53 @@ export default {
         line-height: 150%;
         color: #000000;
         display: flex;
-        width: 270px;
     }
 
     .plan {
         position: absolute;
         top: 78px;
         left: 331px;
+        max-width: 127px;
+        width: 11vw;
     }
+
+    .date {
+        display: inline-block;
+        font-size: 13px;
+        line-height: 20px;
+        color: #9B9B9B;
+        position: absolute;
+        bottom: 25px;
+        right: 25px;
+    }
+
+    .tooltip {
+        height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .tooltip {
+        display: inline-block;
+        position: absolute; 
+        right: 50px; 
+        top: 60px;
+        z-index: 2;
+
+        &__content {
+            position: relative;
+
+            &::after {
+                width: 210px;
+                content: 'Подземная встроенно-пристроенная';
+                position: absolute;
+                color: white;
+                font-size: 13px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+
 </style>
